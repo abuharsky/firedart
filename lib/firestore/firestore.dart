@@ -82,6 +82,11 @@ class Firestore {
 
   DocumentReference document(String path) => DocumentReference(_gateway, path);
 
+  /// Creates a write batch for performing multiple writes as a single atomic commit.
+  ///
+  /// A batch supports up to 500 write operations.
+  WriteBatch batch() => WriteBatch(_gateway);
+
   /// Executes the given [TransactionHandler] and then attempts to commit the
   /// changes applied within an atomic transaction.
   ///

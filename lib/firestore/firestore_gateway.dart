@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firedart/generated/google/firestore/v1/common.pb.dart';
+import 'package:firedart/generated/google/firestore/v1/write.pb.dart';
 import 'package:firedart/generated/google/firestore/v1/document.pb.dart' as fs;
 import 'package:firedart/generated/google/firestore/v1/firestore.pbgrpc.dart';
 import 'package:firedart/generated/google/firestore/v1/query.pb.dart';
@@ -125,6 +126,25 @@ class FirestoreGateway {
   Future<void> deleteDocument(String path) => _client
       .deleteDocument(DeleteDocumentRequest()..name = path)
       .catchError(_handleError);
+
+
+  /// Commits a list of [Write] operations as a single atomic commit (up to 500 writes).
+  ///
+  /// This mirrors the behavior of Firestore client SDK "batch writes" (WriteBatch),
+  /// i.e. all writes are applied atomically and in order.
+  Future<void> commitWrites(List<Write> writes) async {
+    if (writes.isEmpty) return;
+    if (writes.length > 500) {
+      throw ArgumentError(
+          'Firestore commit supports at most 500 writes per batch (got ${writes.length}).');
+    }
+
+    final request = CommitRequest()
+      ..database = database
+      ..writes.addAll(writes);
+
+    await _client.commit(request).catchError(_handleError);
+  }
 
   Stream<Document?> streamDocument(String path) {
     if (_listenStreamCache.containsKey(path)) {

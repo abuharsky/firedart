@@ -472,3 +472,88 @@ class Transaction {
     return map.map((key, value) => MapEntry(key, TypeUtil.encode(value)));
   }
 }
+
+
+/// A Firestore write batch (up to 500 write operations) that is committed atomically.
+///
+/// This is similar in spirit to the official Firebase client SDK WriteBatch:
+/// you enqueue write operations via [set], [update], [delete], then call [commit].
+///
+/// Notes:
+/// - A batch commit is atomic (all-or-nothing) and ordered.
+/// - Reads are not supported inside a batch; for read-modify-write use [Transaction].
+class WriteBatch {
+  final FirestoreGateway _gateway;
+  final List<Write> _writes = <Write>[];
+  bool _committed = false;
+
+  WriteBatch(this._gateway);
+
+  /// An immutable view of the queued writes.
+  UnmodifiableListView<Write> get writes => UnmodifiableListView(_writes);
+
+  void _ensureNotCommitted() {
+    if (_committed) {
+      throw StateError('This batch has already been committed and can no longer be modified.');
+    }
+  }
+
+  String _fullPath(String path) => '${_gateway.documentDatabase}/$path';
+
+  Map<String, fs.Value> _encodeMap(Map<String, dynamic> map) {
+    return map.map((key, value) => MapEntry(key, TypeUtil.encode(value)));
+  }
+
+  /// Deletes the document referred by the provided [path].
+  ///
+  /// If the document does not exist, the operation does nothing and returns normally.
+  void delete(String path) {
+    _ensureNotCommitted();
+    _writes.add(Write(delete: _fullPath(path)));
+  }
+
+  /// Updates fields provided in [data] for the document referred to by [path].
+  ///
+  /// Only the fields present in [data] are updated; all other fields remain unchanged.
+  /// If the document does not yet exist, it will be created.
+  void update(String path, Map<String, dynamic> data) {
+    _ensureNotCommitted();
+    _writes.add(
+      Write(
+        updateMask: DocumentMask(fieldPaths: data.keys),
+        update: fs.Document(
+          name: _fullPath(path),
+          fields: _encodeMap(data),
+        ),
+      ),
+    );
+  }
+
+  /// Sets fields provided in [data] for the document referred to by [path].
+  ///
+  /// All fields will be overwritten with the provided [data]. This means that all
+  /// fields that are not specified in [data] will be deleted.
+  /// If the document does not yet exist, it will be created.
+  void set(String path, Map<String, dynamic> data) {
+    _ensureNotCommitted();
+    _writes.add(
+      Write(
+        updateMask: null,
+        update: fs.Document(
+          name: _fullPath(path),
+          fields: _encodeMap(data),
+        ),
+      ),
+    );
+  }
+
+  /// Commits this batch atomically.
+  ///
+  /// After calling [commit], the batch becomes immutable; additional mutations
+  /// will throw a [StateError].
+  Future<void> commit() async {
+    _ensureNotCommitted();
+    _committed = true;
+    await _gateway.commitWrites(_writes);
+  }
+}
