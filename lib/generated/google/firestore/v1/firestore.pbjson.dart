@@ -1,13 +1,15 @@
+// This is a generated file - do not edit.
 //
-//  Generated code. Do not modify.
-//  source: google/firestore/v1/firestore.proto
-//
-// @dart = 2.12
+// Generated from google/firestore/v1/firestore.proto.
+
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: unused_import
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
@@ -530,6 +532,96 @@ final $typed_data.Uint8List runQueryResponseDescriptor = $convert.base64Decode(
     'CEgAUgRkb25lEkwKD2V4cGxhaW5fbWV0cmljcxgLIAEoCzIjLmdvb2dsZS5maXJlc3RvcmUudj'
     'EuRXhwbGFpbk1ldHJpY3NSDmV4cGxhaW5NZXRyaWNzQhcKFWNvbnRpbnVhdGlvbl9zZWxlY3Rv'
     'cg==');
+
+@$core.Deprecated('Use executePipelineRequestDescriptor instead')
+const ExecutePipelineRequest$json = {
+  '1': 'ExecutePipelineRequest',
+  '2': [
+    {'1': 'database', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'database'},
+    {
+      '1': 'structured_pipeline',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.google.firestore.v1.StructuredPipeline',
+      '9': 0,
+      '10': 'structuredPipeline'
+    },
+    {'1': 'transaction', '3': 5, '4': 1, '5': 12, '9': 1, '10': 'transaction'},
+    {
+      '1': 'new_transaction',
+      '3': 6,
+      '4': 1,
+      '5': 11,
+      '6': '.google.firestore.v1.TransactionOptions',
+      '9': 1,
+      '10': 'newTransaction'
+    },
+    {
+      '1': 'read_time',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '9': 1,
+      '10': 'readTime'
+    },
+  ],
+  '8': [
+    {'1': 'pipeline_type'},
+    {'1': 'consistency_selector'},
+  ],
+};
+
+/// Descriptor for `ExecutePipelineRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List executePipelineRequestDescriptor = $convert.base64Decode(
+    'ChZFeGVjdXRlUGlwZWxpbmVSZXF1ZXN0Eh8KCGRhdGFiYXNlGAEgASgJQgPgQQJSCGRhdGFiYX'
+    'NlEloKE3N0cnVjdHVyZWRfcGlwZWxpbmUYAiABKAsyJy5nb29nbGUuZmlyZXN0b3JlLnYxLlN0'
+    'cnVjdHVyZWRQaXBlbGluZUgAUhJzdHJ1Y3R1cmVkUGlwZWxpbmUSIgoLdHJhbnNhY3Rpb24YBS'
+    'ABKAxIAVILdHJhbnNhY3Rpb24SUgoPbmV3X3RyYW5zYWN0aW9uGAYgASgLMicuZ29vZ2xlLmZp'
+    'cmVzdG9yZS52MS5UcmFuc2FjdGlvbk9wdGlvbnNIAVIObmV3VHJhbnNhY3Rpb24SOQoJcmVhZF'
+    '90aW1lGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgBUghyZWFkVGltZUIPCg1w'
+    'aXBlbGluZV90eXBlQhYKFGNvbnNpc3RlbmN5X3NlbGVjdG9y');
+
+@$core.Deprecated('Use executePipelineResponseDescriptor instead')
+const ExecutePipelineResponse$json = {
+  '1': 'ExecutePipelineResponse',
+  '2': [
+    {'1': 'transaction', '3': 1, '4': 1, '5': 12, '10': 'transaction'},
+    {
+      '1': 'results',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.google.firestore.v1.Document',
+      '10': 'results'
+    },
+    {
+      '1': 'execution_time',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.google.protobuf.Timestamp',
+      '10': 'executionTime'
+    },
+    {
+      '1': 'explain_stats',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.google.firestore.v1.ExplainStats',
+      '10': 'explainStats'
+    },
+  ],
+};
+
+/// Descriptor for `ExecutePipelineResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List executePipelineResponseDescriptor = $convert.base64Decode(
+    'ChdFeGVjdXRlUGlwZWxpbmVSZXNwb25zZRIgCgt0cmFuc2FjdGlvbhgBIAEoDFILdHJhbnNhY3'
+    'Rpb24SNwoHcmVzdWx0cxgCIAMoCzIdLmdvb2dsZS5maXJlc3RvcmUudjEuRG9jdW1lbnRSB3Jl'
+    'c3VsdHMSQQoOZXhlY3V0aW9uX3RpbWUYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW'
+    '1wUg1leGVjdXRpb25UaW1lEkYKDWV4cGxhaW5fc3RhdHMYBCABKAsyIS5nb29nbGUuZmlyZXN0'
+    'b3JlLnYxLkV4cGxhaW5TdGF0c1IMZXhwbGFpblN0YXRz');
 
 @$core.Deprecated('Use runAggregationQueryRequestDescriptor instead')
 const RunAggregationQueryRequest$json = {
